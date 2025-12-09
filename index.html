@@ -1,0 +1,957 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Local Task Kz</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Login/Signup Page -->
+    <div id="authPage" class="auth-container">
+        <div class="auth-card">
+            <div class="auth-header">
+                <h1 class="auth-title">Local Task Kz</h1>
+                <p class="auth-subtitle">Start posting tasks or earning money today</p>
+            </div>
+            
+            <div class="auth-tabs">
+                <button class="auth-tab active" id="loginTab">Login</button>
+                <button class="auth-tab" id="signupTab">Sign Up</button>
+            </div>
+            
+            <div class="auth-body">
+                <!-- Login Form -->
+                <form id="loginForm" class="auth-form active">
+                    <div class="form-group">
+                        <label class="form-label">Email</label>
+                        <input type="email" class="form-control" id="loginEmail" placeholder="your@email.com" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Password</label>
+                        <input type="password" class="form-control" id="loginPassword" placeholder="Enter your password" required>
+                    </div>
+                    
+                    <button type="submit" class="btn btn-primary" style="width: 100%; margin-top: 10px;">Login</button>
+                </form>
+                
+                <!-- Signup Form -->
+                <form id="signupForm" class="auth-form">
+                    <div class="form-group">
+                        <label class="form-label">Full Name</label>
+                        <input type="text" class="form-control" id="signupName" placeholder="John Smith" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Email</label>
+                        <input type="email" class="form-control" id="signupEmail" placeholder="john@example.com" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Phone</label>
+                        <input type="tel" class="form-control" id="signupPhone" placeholder="7701234567" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Password</label>
+                        <input type="password" class="form-control" id="signupPassword" placeholder="Create a password (min. 8 characters)" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">I want to</label>
+                        <div class="radio-group">
+                            <label class="radio-option">
+                                <input type="radio" name="userType" value="customer" checked> 
+                                Post tasks (Customer)
+                            </label>
+                            <label class="radio-option">
+                                <input type="radio" name="userType" value="worker"> 
+                                Complete tasks (Worker)
+                            </label>
+                        </div>
+                    </div>
+                    
+                    <button type="submit" class="btn btn-primary" style="width: 100%; margin-top: 10px;">Create Account</button>
+                </form>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Main Dashboard (Initially Hidden) -->
+    <div id="dashboardPage" style="display: none;">
+        <header>
+            <div class="container nav-container">
+                <div class="logo">
+                    <i class="fas fa-tasks"></i>
+                    <span>Local Task Kz</span>
+                </div>
+                
+                <div class="nav-links">
+                    <a href="#" class="active" id="navDashboard">Dashboard</a>
+                    <a href="#" id="navMessages">Messages</a>
+                    <a href="#" id="navNotifications">Notifications</a>
+                    <a href="#" id="navProfile">Profile</a>
+                </div>
+                
+                <div class="user-info">
+                    <div class="user-avatar" id="userAvatar">U</div>
+                    <div>
+                        <div class="user-name" id="userName">User</div>
+                        <div class="user-role" id="userRole">Customer</div>
+                    </div>
+                </div>
+            </div>
+        </header>
+        
+        <div class="main-content">
+            <aside class="sidebar">
+                <ul class="sidebar-menu">
+                    <li><a href="#" class="active" data-view="myTasks"><i class="fas fa-list-check"></i> <span>My Tasks</span></a></li>
+                    <li><a href="#" data-view="availableTasks"><i class="fas fa-search"></i> <span>Available Tasks</span></a></li>
+                    <li><a href="#" data-view="postTask"><i class="fas fa-plus-circle"></i> <span>Post New Task</span></a></li>
+                    <li><a href="#" data-view="reviews"><i class="fas fa-star"></i> <span>Reviews & Ratings</span></a></li>
+                    <li><a href="#" data-view="history"><i class="fas fa-history"></i> <span>Task History</span></a></li>
+                    <li><a href="#" data-view="wallet"><i class="fas fa-wallet"></i> <span>Wallet</span></a></li>
+                    <li><a href="#" data-view="settings"><i class="fas fa-cog"></i> <span>Settings</span></a></li>
+                    <li><a href="#" data-view="adminPanel" id="adminMenuItem" style="display: none; background-color: #dc2626; color: white;"><i class="fas fa-crown"></i> <span>Admin Panel</span></a></li>
+                </ul>
+                
+                <div class="sidebar-footer">
+                    <a href="#" class="logout-btn" id="logoutBtn">
+                        <i class="fas fa-sign-out-alt"></i>
+                        <span>Logout</span>
+                    </a>
+                </div>
+            </aside>
+            
+            <main class="dashboard-content">
+                <!-- Customer Dashboard -->
+                <div id="customerDashboard" style="display: none;">
+                    <div class="dashboard-header">
+                        <h1 class="dashboard-title">Customer Dashboard</h1>
+                        <div class="balance-display">
+                            <div class="balance-label">Wallet Balance:</div>
+                            <div class="balance-amount" id="customerBalance">$0.00</div>
+                            <button class="btn btn-secondary btn-sm" id="addFundsBtn">
+                                <i class="fas fa-plus"></i> Add Funds
+                            </button>
+                        </div>
+                        <button class="btn btn-primary" id="postTaskBtn">
+                            <i class="fas fa-plus"></i> Post New Task
+                        </button>
+                    </div>
+                    
+                    <div class="task-filters">
+                        <button class="filter-btn active" data-filter="all">All</button>
+                        <button class="filter-btn" data-filter="posted">Posted</button>
+                        <button class="filter-btn" data-filter="accepted">Accepted</button>
+                        <button class="filter-btn" data-filter="completed">Completed</button>
+                        <button class="filter-btn" data-filter="canceled">Canceled</button>
+                    </div>
+                    
+                    <div class="task-cards" id="customerTasks">
+                        <!-- Task cards will be loaded here -->
+                    </div>
+                </div>
+                
+                <!-- Worker Dashboard -->
+                <div id="workerDashboard" style="display: none;">
+                    <div class="dashboard-header">
+                        <h1 class="dashboard-title">Worker Dashboard</h1>
+                        <div class="balance-display">
+                            <div class="balance-label">Earnings:</div>
+                            <div class="balance-amount" id="workerBalance">$0.00</div>
+                            <button class="btn btn-success btn-sm" id="withdrawBtn">
+                                <i class="fas fa-money-bill-wave"></i> Withdraw
+                            </button>
+                        </div>
+                        <div class="user-info">
+                            <div class="user-avatar" id="workerAvatar">W</div>
+                            <div>
+                                <div class="user-name" id="workerName">Worker</div>
+                                <div class="user-role">Worker</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="task-filters">
+                        <button class="filter-btn active" data-filter="all">All</button>
+                        <button class="filter-btn" data-filter="posted">Available</button>
+                        <button class="filter-btn" data-filter="accepted">Accepted</button>
+                        <button class="filter-btn" data-filter="completed">Completed</button>
+                    </div>
+                    
+                    <div class="task-cards" id="workerTasks">
+                        <!-- Task cards will be loaded here -->
+                    </div>
+                </div>
+                
+                <!-- Post Task Form -->
+                <div id="postTaskView" style="display: none;">
+                    <div class="dashboard-header">
+                        <h1 class="dashboard-title">Create New Task</h1>
+                        <button class="btn btn-secondary" id="backToDashboardBtn">
+                            <i class="fas fa-arrow-left"></i> Back to Dashboard
+                        </button>
+                    </div>
+                    
+                    <div style="background-color: white; border-radius: 10px; padding: 30px;">
+                        <form id="newTaskForm">
+                            <div class="form-group">
+                                <label class="form-label">Task Title</label>
+                                <input type="text" class="form-control" id="taskTitle" placeholder="e.g., Help moving furniture" required>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label class="form-label">Description</label>
+                                <textarea class="form-control" id="taskDescription" placeholder="Provide details about the task..." required></textarea>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label class="form-label">Category</label>
+                                <select class="form-control" id="taskCategory" required>
+                                    <option value="">Select a category</option>
+                                    <option value="moving">Moving & Transport</option>
+                                    <option value="pets">Pet Care</option>
+                                    <option value="cleaning">Cleaning</option>
+                                    <option value="repair">Repair & Maintenance</option>
+                                    <option value="delivery">Delivery</option>
+                                    <option value="other">Other</option>
+                                </select>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label class="form-label">Payment ($)</label>
+                                <div class="payment-display">
+                                    <input type="number" class="form-control" id="taskPayment" min="0" step="0.01" placeholder="0.00" required>
+                                    <div class="commission-note">
+                                        <i class="fas fa-info-circle"></i>
+                                        5% commission ($<span id="commissionAmount">0.00</span>) will be deducted
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label class="form-label">Location</label>
+                                <input type="text" class="form-control" id="taskLocation" placeholder="123 Main St, City" required>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label class="form-label">Scheduled Time</label>
+                                <input type="datetime-local" class="form-control" id="taskTime" required>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label class="form-label">Payment Method</label>
+                                <div class="payment-methods" id="paymentMethods">
+                                    <!-- Payment methods will be loaded here -->
+                                </div>
+                                <button type="button" class="btn btn-secondary btn-sm" id="addPaymentMethodBtn" style="margin-top: 10px;">
+                                    <i class="fas fa-credit-card"></i> Add New Card
+                                </button>
+                            </div>
+                            
+                            <button type="submit" class="btn btn-primary" id="createTaskBtn">
+                                <i class="fas fa-plus"></i> Create Task ($<span id="totalAmount">0.00</span>)
+                            </button>
+                        </form>
+                    </div>
+                </div>
+                
+                <!-- Reviews & Ratings -->
+                <div id="reviewsView" style="display: none;">
+                    <div class="dashboard-header">
+                        <h1 class="dashboard-title">Reviews & Ratings</h1>
+                    </div>
+                    
+                    <div class="reviews-section" id="reviewsList">
+                        <!-- Reviews will be loaded here -->
+                    </div>
+                </div>
+                
+                <!-- Wallet View -->
+                <div id="walletView" style="display: none;">
+                    <div class="dashboard-header">
+                        <h1 class="dashboard-title">Wallet</h1>
+                    </div>
+                    
+                    <div class="wallet-section">
+                        <div class="wallet-card">
+                            <h2 class="wallet-card-title">
+                                <i class="fas fa-wallet"></i>
+                                Balance
+                            </h2>
+                            <div class="wallet-balance">
+                                <div class="balance-amount-large" id="walletBalance">$0.00</div>
+                                <div class="balance-label-large">
+                                    Available Balance
+                                    <span class="commission-info">(5% commission on all transactions)</span>
+                                </div>
+                            </div>
+                            
+                            <div class="wallet-actions">
+                                <button class="btn btn-primary" id="addFundsWalletBtn">
+                                    <i class="fas fa-plus"></i> Add Funds
+                                </button>
+                                <button class="btn btn-success" id="withdrawWalletBtn">
+                                    <i class="fas fa-money-bill-wave"></i> Withdraw
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <div class="wallet-card">
+                            <h2 class="wallet-card-title">
+                                <i class="fas fa-credit-card"></i>
+                                Payment Methods
+                            </h2>
+                            <div class="payment-methods-list" id="walletPaymentMethods">
+                                <!-- Payment methods will be loaded here -->
+                            </div>
+                            <button class="btn btn-secondary" id="addCardWalletBtn">
+                                <i class="fas fa-plus"></i> Add New Card
+                            </button>
+                        </div>
+                        
+                        <div class="wallet-card">
+                            <h2 class="wallet-card-title">
+                                <i class="fas fa-history"></i>
+                                Transaction History
+                            </h2>
+                            <div class="transaction-history" id="transactionHistory">
+                                <!-- Transactions will be loaded here -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Settings View -->
+                <div id="settingsView" style="display: none;">
+                    <div class="dashboard-header">
+                        <h1 class="dashboard-title">Settings</h1>
+                    </div>
+                    
+                    <div class="settings-section">
+                        <div class="settings-card">
+                            <h2 class="settings-card-title">
+                                <i class="fas fa-money-bill-wave"></i>
+                                Commission Settings
+                            </h2>
+                            <div class="settings-item">
+                                <div class="settings-label">Platform Commission:</div>
+                                <div class="settings-value fixed-value">
+                                    5% on all transactions
+                                    <span class="fixed-badge">Fixed</span>
+                                </div>
+                            </div>
+                            <div class="settings-item">
+                                <div class="settings-label">Website Owner:</div>
+                                <div class="settings-value">
+                                    Local Task Kz
+                                </div>
+                            </div>
+                            <div class="settings-note">
+                                <i class="fas fa-info-circle"></i>
+                                5% commission is automatically deducted from every transaction and sent to the website owner.
+                            </div>
+                        </div>
+                        
+                        <div class="settings-card">
+                            <h2 class="settings-card-title">
+                                <i class="fas fa-user"></i>
+                                Personal Information
+                            </h2>
+                            <div class="settings-item editable">
+                                <div class="settings-label">Account Name:</div>
+                                <div class="settings-value">
+                                    <span id="currentUserName">Mike Connor</span>
+                                    <div class="last-updated" id="nameUpdatedDate">Updated: Never</div>
+                                    <button class="edit-btn" data-field="name">
+                                        <i class="fas fa-edit"></i> Edit
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="settings-item editable">
+                                <div class="settings-label">Contact Number:</div>
+                                <div class="settings-value">
+                                    <span id="currentUserPhone">+1 (555) 123-4567</span>
+                                    <div class="last-updated" id="phoneUpdatedDate">Updated: Never</div>
+                                    <button class="edit-btn" data-field="phone">
+                                        <i class="fas fa-edit"></i> Edit
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="settings-item editable">
+                                <div class="settings-label">Email:</div>
+                                <div class="settings-value">
+                                    <span id="currentUserEmail">mike.connor@email.com</span>
+                                    <div class="last-updated" id="emailUpdatedDate">Updated: Never</div>
+                                    <button class="edit-btn" data-field="email">
+                                        <i class="fas fa-edit"></i> Edit
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="settings-item editable">
+                                <div class="settings-label">Password:</div>
+                                <div class="settings-value">
+                                    <span>••••••••</span>
+                                    <div class="last-updated" id="passwordUpdatedDate">Updated: Never</div>
+                                    <button class="edit-btn" data-field="password">
+                                        <i class="fas fa-edit"></i> Change Password
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="settings-card">
+                            <h2 class="settings-card-title">
+                                <i class="fas fa-chart-bar"></i>
+                                Transaction Summary
+                            </h2>
+                            <div class="stats-grid">
+                                <div class="stat-item">
+                                    <div class="stat-label">Total Transactions</div>
+                                    <div class="stat-value" id="totalTransactions">0</div>
+                                </div>
+                                <div class="stat-item">
+                                    <div class="stat-label">Total Amount</div>
+                                    <div class="stat-value" id="totalAmountSettings">$0.00</div>
+                                </div>
+                                <div class="stat-item highlight">
+                                    <div class="stat-label">Platform Commission (5%)</div>
+                                    <div class="stat-value" id="platformCommission">$0.00</div>
+                                </div>
+                                <div class="stat-item">
+                                    <div class="stat-label">Last Updated</div>
+                                    <div class="stat-value" id="lastUpdated">Never</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Admin Panel (Hidden by default) -->
+                <div id="adminPanel" style="display: none;">
+                    <div class="dashboard-header">
+                        <h1 class="dashboard-title">Admin Panel</h1>
+                        <div class="user-info">
+                            <div class="user-avatar" id="adminAvatar">A</div>
+                            <div>
+                                <div class="user-name" id="adminName">Admin</div>
+                                <div class="user-role" style="background-color: #dc2626; color: white;">Super Admin</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="admin-section">
+                        <!-- Statistics Cards -->
+                        <div class="stats-grid">
+                            <div class="stat-item">
+                                <div class="stat-label">Total Users</div>
+                                <div class="stat-value" id="totalUsers">0</div>
+                                <div class="stat-subtext">Registered Accounts</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="stat-label">Total Tasks</div>
+                                <div class="stat-value" id="totalTasks">0</div>
+                                <div class="stat-subtext">Posted Tasks</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="stat-label">Total Earnings</div>
+                                <div class="stat-value" id="totalEarnings">$0.00</div>
+                                <div class="stat-subtext">Platform Commission</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="stat-label">Active Today</div>
+                                <div class="stat-value" id="activeToday">0</div>
+                                <div class="stat-subtext">Active Users</div>
+                            </div>
+                        </div>
+                        
+                        <!-- User Management -->
+                        <div class="admin-card">
+                            <h2 class="admin-card-title">
+                                <i class="fas fa-users"></i>
+                                User Management
+                                <button class="btn btn-secondary btn-sm" id="refreshUsersBtn">
+                                    <i class="fas fa-sync-alt"></i> Refresh
+                                </button>
+                            </h2>
+                            
+                            <div class="user-filters">
+                                <button class="filter-btn active" data-user-filter="all">All Users</button>
+                                <button class="filter-btn" data-user-filter="customers">Customers</button>
+                                <button class="filter-btn" data-user-filter="workers">Workers</button>
+                                <button class="filter-btn" data-user-filter="admins">Admins</button>
+                            </div>
+                            
+                            <div class="table-container">
+                                <table class="admin-table">
+                                    <thead>
+                                        <tr>
+                                            <th>ID</th>
+                                            <th>Name</th>
+                                            <th>Email</th>
+                                            <th>Phone</th>
+                                            <th>Type</th>
+                                            <th>Balance</th>
+                                            <th>Joined</th>
+                                            <th>Actions</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="usersTable">
+                                        <!-- Users will be loaded here -->
+                                    </tbody>
+                                </table>
+                            </div>
+                            
+                            <div class="admin-actions">
+                                <button class="btn btn-primary" id="createUserBtn">
+                                    <i class="fas fa-user-plus"></i> Create New User
+                                </button>
+                                <button class="btn btn-success" id="exportUsersBtn">
+                                    <i class="fas fa-download"></i> Export Users
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <!-- Task Management -->
+                        <div class="admin-card">
+                            <h2 class="admin-card-title">
+                                <i class="fas fa-tasks"></i>
+                                Task Management
+                                <button class="btn btn-secondary btn-sm" id="refreshTasksBtn">
+                                    <i class="fas fa-sync-alt"></i> Refresh
+                                </button>
+                            </h2>
+                            
+                            <div class="table-container">
+                                <table class="admin-table">
+                                    <thead>
+                                        <tr>
+                                            <th>ID</th>
+                                            <th>Title</th>
+                                            <th>Customer</th>
+                                            <th>Worker</th>
+                                            <th>Payment</th>
+                                            <th>Commission</th>
+                                            <th>Status</th>
+                                            <th>Date</th>
+                                            <th>Actions</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="tasksTable">
+                                        <!-- Tasks will be loaded here -->
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        
+                        <!-- Platform Settings -->
+                        <div class="admin-card">
+                            <h2 class="admin-card-title">
+                                <i class="fas fa-cogs"></i>
+                                Platform Settings
+                            </h2>
+                            
+                            <div class="settings-grid">
+                                <div class="setting-item">
+                                    <label class="setting-label">Platform Commission Rate</label>
+                                    <div class="setting-control">
+                                        <input type="number" class="form-control" id="commissionRate" value="5" min="0" max="50" step="0.1">
+                                        <span class="setting-unit">%</span>
+                                    </div>
+                                    <small class="setting-hint">Current: 5% of all transactions</small>
+                                </div>
+                                
+                                <div class="setting-item">
+                                    <label class="setting-label">Minimum Task Payment</label>
+                                    <div class="setting-control">
+                                        <span class="setting-prefix">$</span>
+                                        <input type="number" class="form-control" id="minTaskPayment" value="5" min="1" step="0.01">
+                                    </div>
+                                    <small class="setting-hint">Minimum amount for tasks</small>
+                                </div>
+                                
+                                <div class="setting-item">
+                                    <label class="setting-label">Withdrawal Fee</label>
+                                    <div class="setting-control">
+                                        <span class="setting-prefix">$</span>
+                                        <input type="number" class="form-control" id="withdrawalFee" value="1.50" min="0" step="0.01">
+                                    </div>
+                                    <small class="setting-hint">Fee for withdrawing earnings</small>
+                                </div>
+                                
+                                <div class="setting-item">
+                                    <label class="setting-label">Platform Name</label>
+                                    <div class="setting-control">
+                                        <input type="text" class="form-control" id="platformName" value="Local Task Kz">
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="admin-actions">
+                                <button class="btn btn-primary" id="saveSettingsBtn">
+                                    <i class="fas fa-save"></i> Save Settings
+                                </button>
+                                <button class="btn btn-secondary" id="resetSettingsBtn">
+                                    <i class="fas fa-undo"></i> Reset to Default
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <!-- Financial Overview -->
+                        <div class="admin-card">
+                            <h2 class="admin-card-title">
+                                <i class="fas fa-chart-line"></i>
+                                Financial Overview
+                            </h2>
+                            
+                            <div class="financial-stats">
+                                <div class="financial-item">
+                                    <div class="financial-label">Total Platform Earnings</div>
+                                    <div class="financial-value" id="totalPlatformEarnings">$0.00</div>
+                                </div>
+                                <div class="financial-item">
+                                    <div class="financial-label">Today's Earnings</div>
+                                    <div class="financial-value" id="todayEarnings">$0.00</div>
+                                </div>
+                                <div class="financial-item">
+                                    <div class="financial-label">This Month's Earnings</div>
+                                    <div class="financial-value" id="monthEarnings">$0.00</div>
+                                </div>
+                                <div class="financial-item">
+                                    <div class="financial-label">Total Withdrawals</div>
+                                    <div class="financial-value" id="totalWithdrawals">$0.00</div>
+                                </div>
+                            </div>
+                            
+                            <div class="admin-actions">
+                                <button class="btn btn-success" id="withdrawPlatformBtn">
+                                    <i class="fas fa-money-bill-wave"></i> Withdraw Platform Funds
+                                </button>
+                                <button class="btn btn-secondary" id="viewAllTransactionsBtn">
+                                    <i class="fas fa-list"></i> View All Transactions
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+    
+    <!-- Task Details Modal -->
+    <div id="taskDetailsModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title" id="modalTaskTitle">Task Details</h2>
+                <button class="close-btn" id="closeModalBtn">&times;</button>
+            </div>
+            <div class="modal-body" id="modalTaskBody">
+                <!-- Task details will be loaded here -->
+            </div>
+        </div>
+    </div>
+    
+    <!-- Customer Review Modal -->
+    <div id="customerReviewModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title">Rate Worker</h2>
+                <button class="close-btn" id="closeCustomerReviewModalBtn">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="customerReviewForm">
+                    <div class="form-group">
+                        <label class="form-label">Rate the worker</label>
+                        <div class="rating-stars" id="customerRatingStars">
+                            <i class="fas fa-star star" data-rating="1"></i>
+                            <i class="fas fa-star star" data-rating="2"></i>
+                            <i class="fas fa-star star" data-rating="3"></i>
+                            <i class="fas fa-star star" data-rating="4"></i>
+                            <i class="fas fa-star star" data-rating="5"></i>
+                        </div>
+                        <input type="hidden" id="customerSelectedRating" value="5">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Comment about the worker</label>
+                        <textarea class="form-control" id="customerReviewComment" placeholder="Share your experience with this worker..." rows="4" required></textarea>
+                    </div>
+                    
+                    <button type="submit" class="btn btn-primary">Submit Review</button>
+                </form>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Worker Review Modal -->
+    <div id="reviewModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title">Leave a Review</h2>
+                <button class="close-btn" id="closeReviewModalBtn">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="reviewForm">
+                    <div class="form-group">
+                        <label class="form-label">Rating</label>
+                        <div class="rating-stars" id="ratingStars">
+                            <i class="fas fa-star star" data-rating="1"></i>
+                            <i class="fas fa-star star" data-rating="2"></i>
+                            <i class="fas fa-star star" data-rating="3"></i>
+                            <i class="fas fa-star star" data-rating="4"></i>
+                            <i class="fas fa-star star" data-rating="5"></i>
+                        </div>
+                        <input type="hidden" id="selectedRating" value="5">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Comment</label>
+                        <textarea class="form-control" id="reviewComment" placeholder="Share your experience..." rows="4" required></textarea>
+                    </div>
+                    
+                    <button type="submit" class="btn btn-primary">Submit Review</button>
+                </form>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Add Card Modal -->
+    <div id="addCardModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title">Add Payment Card</h2>
+                <button class="close-btn" id="closeAddCardModalBtn">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="addCardForm">
+                    <div class="form-group">
+                        <label class="form-label">Cardholder Name</label>
+                        <input type="text" class="form-control" id="cardName" placeholder="John Smith" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Card Number</label>
+                        <input type="text" class="form-control" id="cardNumber" placeholder="1234 5678 9012 3456" maxlength="19" required>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="form-label">Expiry Date</label>
+                            <input type="text" class="form-control" id="cardExpiry" placeholder="MM/YY" maxlength="5" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="form-label">CVV</label>
+                            <input type="text" class="form-control" id="cardCvv" placeholder="123" maxlength="3" required>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="checkbox-label">
+                            <input type="checkbox" id="saveCard" checked>
+                            Save this card for future payments
+                        </label>
+                    </div>
+                    
+                    <div class="payment-security">
+                        <i class="fas fa-lock"></i>
+                        Your payment information is secured with encryption
+                    </div>
+                    
+                    <button type="submit" class="btn btn-primary">Add Card</button>
+                </form>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Add Funds Modal -->
+    <div id="addFundsModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title">Add Funds to Wallet</h2>
+                <button class="close-btn" id="closeAddFundsModalBtn">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="addFundsForm">
+                    <div class="form-group">
+                        <label class="form-label">Amount to Add ($)</label>
+                        <input type="number" class="form-control" id="addAmount" min="10" step="0.01" placeholder="0.00" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Payment Method</label>
+                        <div class="payment-methods-select" id="fundsPaymentMethods">
+                            <!-- Payment methods will be loaded here -->
+                        </div>
+                        <button type="button" class="btn btn-secondary btn-sm" id="addNewCardForFundsBtn" style="margin-top: 10px;">
+                            <i class="fas fa-credit-card"></i> Add New Card
+                        </button>
+                    </div>
+                    
+                    <div class="payment-summary">
+                        <div class="summary-item">
+                            <span>Amount:</span>
+                            <span>$<span id="fundsAmount">0.00</span></span>
+                        </div>
+                        <div class="summary-item">
+                            <span>Processing Fee:</span>
+                            <span>$<span id="processingFee">0.00</span></span>
+                        </div>
+                        <div class="summary-item total">
+                            <span>Total to Charge:</span>
+                            <span>$<span id="totalCharge">0.00</span></span>
+                        </div>
+                    </div>
+                    
+                    <button type="submit" class="btn btn-primary">Add Funds</button>
+                </form>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Withdraw Funds Modal -->
+    <div id="withdrawModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title">Withdraw Funds</h2>
+                <button class="close-btn" id="closeWithdrawModalBtn">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="withdrawForm">
+                    <div class="form-group">
+                        <label class="form-label">Available Balance</label>
+                        <div class="available-balance">$<span id="availableBalance">0.00</span></div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Withdrawal Amount ($)</label>
+                        <input type="number" class="form-control" id="withdrawAmount" min="10" step="0.01" placeholder="0.00" required>
+                        <small class="form-hint">Minimum withdrawal: $10.00</small>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Withdrawal Method</label>
+                        <div class="withdrawal-methods">
+                            <div class="withdrawal-method active" data-method="card">
+                                <i class="fas fa-credit-card"></i>
+                                <span>Bank Card</span>
+                            </div>
+                            <div class="withdrawal-method" data-method="bank">
+                                <i class="fas fa-university"></i>
+                                <span>Bank Transfer</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group" id="withdrawCardSection">
+                        <label class="form-label">Select Card</label>
+                        <div class="withdrawal-cards" id="withdrawalCards">
+                            <!-- Withdrawal cards will be loaded here -->
+                        </div>
+                        <button type="button" class="btn btn-secondary btn-sm" id="addWithdrawalCardBtn" style="margin-top: 10px;">
+                            <i class="fas fa-credit-card"></i> Add New Card
+                        </button>
+                    </div>
+                    
+                    <div class="form-group" id="withdrawBankSection" style="display: none;">
+                        <div class="form-group">
+                            <label class="form-label">Bank Name</label>
+                            <input type="text" class="form-control" id="bankName" placeholder="e.g., Chase Bank">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Account Number</label>
+                            <input type="text" class="form-control" id="accountNumber" placeholder="123456789">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Routing Number</label>
+                            <input type="text" class="form-control" id="routingNumber" placeholder="021000021">
+                        </div>
+                    </div>
+                    
+                    <div class="withdrawal-summary">
+                        <div class="summary-item">
+                            <span>Withdrawal Amount:</span>
+                            <span>$<span id="withdrawSummaryAmount">0.00</span></span>
+                        </div>
+                        <div class="summary-item">
+                            <span>Processing Fee:</span>
+                            <span>$<span id="withdrawFee">1.50</span></span>
+                        </div>
+                        <div class="summary-item total">
+                            <span>You Will Receive:</span>
+                            <span>$<span id="netWithdrawAmount">0.00</span></span>
+                        </div>
+                    </div>
+                    
+                    <button type="submit" class="btn btn-success">Withdraw Funds</button>
+                </form>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Payment Processing Modal -->
+    <div id="paymentProcessingModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title">Processing Payment</h2>
+            </div>
+            <div class="modal-body">
+                <div class="processing-animation">
+                    <i class="fas fa-spinner fa-spin"></i>
+                    <p>Please wait while we process your payment...</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Payment Success Modal -->
+    <div id="paymentSuccessModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title">Payment Successful!</h2>
+                <button class="close-btn" id="closePaymentSuccessModalBtn">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="success-animation">
+                    <i class="fas fa-check-circle"></i>
+                    <h3>Payment Completed</h3>
+                    <p id="successMessage">Your payment has been processed successfully.</p>
+                    <div class="success-details" id="successDetails">
+                        <!-- Success details will be loaded here -->
+                    </div>
+                    <button class="btn btn-primary" id="closeSuccessModalBtn">Continue</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Edit Modal for Settings -->
+    <div id="editSettingsModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title" id="editModalTitle">Edit Information</h2>
+                <button class="close-btn" id="closeEditModalBtn">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="editSettingsForm">
+                    <div class="form-group">
+                        <label class="form-label" id="editFieldLabel">Field</label>
+                        <input type="text" class="form-control" id="editFieldValue" required>
+                        <div id="passwordRequirements" style="display: none; font-size: 0.8rem; color: var(--gray); margin-top: 5px;">
+                            Password must be at least 8 characters long
+                        </div>
+                        <input type="hidden" id="editFieldType">
+                    </div>
+                    <button type="submit" class="btn btn-primary">Save Changes</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
